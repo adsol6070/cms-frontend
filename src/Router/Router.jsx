@@ -16,6 +16,7 @@ import {
   CreateOrganization,
   OrganizationList,
   SuperUsersList,
+  OrganizationSettings,
   Register,
   Login,
 } from "../scenes";
@@ -63,6 +64,14 @@ const AppRouter = () => {
             element={
               <ProtectedRoute>
                 <SuperUsersList />
+              </ProtectedRoute>
+            }
+          />
+           <Route
+            path="/organizations-settings"
+            element={
+              <ProtectedRoute>
+                <OrganizationSettings />
               </ProtectedRoute>
             }
           />

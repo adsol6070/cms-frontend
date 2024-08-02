@@ -12,6 +12,9 @@ const organizationApi = () => {
     getOrganizationsSuperUsers: async () => {
       return axiosInstance.get("/organization/getSuperusers");
     },
+    disableOrganization: async (data) => {
+      return axiosInstance.post("/organization/disable-tenant", data);
+    },
   };
 };
 

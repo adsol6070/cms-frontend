@@ -8,6 +8,7 @@ import Login from "./auth/login";
 import CreateOrganization from "./CRM/Organizations/create";
 import OrganizationList from "./CRM/Organizations/list";
 import SuperUsersList from "./CRM/Organizations/list-superusers";
+import OrganizationSettings from "./CRM/Organizations/org-settings";
 import Calendar from "./calendar";
 import Bar from "./bar";
 import Line from "./line";
@@ -27,6 +28,7 @@ export {
   CreateOrganization,
   OrganizationList,
   SuperUsersList,
+  OrganizationSettings,
   Calendar,
   Bar,
   Line,

@@ -27,8 +27,8 @@ import {
   SettingsOutlined,
   SupervisedUserCircleOutlined, // For product listings
 } from "@mui/icons-material";
-import avatar from "../../../assets/images/avatar.png";
-import logo from "../../../assets/images/logo.png";
+import avatar from "../../../assets/images/admin-image.jpg";
+import logo from "../../../assets/images/logo-sm.png";
 import Item from "./Item";
 import { ToggledContext } from "../../../App";
 
@@ -86,7 +86,7 @@ const SideBar = () => {
                   textTransform="capitalize"
                   color={colors.greenAccent[500]}
                 >
-                  Argon
+                  Adsol
                 </Typography>
               </Box>
             )}
@@ -178,7 +178,7 @@ const SideBar = () => {
             icon={<ListOutlined />}
           />
           <Item
-            title="Org. SuperUsers"
+            title="Organization Users"
             path="/list-superusers"
             colors={colors}
             icon={<SupervisedUserCircleOutlined />}
@@ -192,7 +192,7 @@ const SideBar = () => {
         </Menu>
 
         {/* Product Management Section */}
-        <Typography
+        {/* <Typography
           variant="h6"
           color={colors.gray[300]}
           sx={{ m: "15px 0 5px 20px" }}
@@ -228,10 +228,10 @@ const SideBar = () => {
             colors={colors}
             icon={<ShoppingCartOutlined />}
           />
-        </Menu>
+        </Menu> */}
 
         {/* Pages Section */}
-        <Typography
+        {/* <Typography
           variant="h6"
           color={colors.gray[300]}
           sx={{ m: "15px 0 5px 20px" }}
@@ -267,10 +267,10 @@ const SideBar = () => {
             colors={colors}
             icon={<HelpOutlineOutlined />}
           />
-        </Menu>
+        </Menu> */}
 
         {/* Charts Section */}
-        <Typography
+        {/* <Typography
           variant="h6"
           color={colors.gray[300]}
           sx={{ m: "15px 0 5px 20px" }}
@@ -318,7 +318,7 @@ const SideBar = () => {
             colors={colors}
             icon={<WavesOutlined />}
           />
-        </Menu>
+        </Menu> */}
       </Box>
     </Sidebar>
   );

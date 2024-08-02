@@ -28,7 +28,11 @@ const SuperUsersList = () => {
     const fetchOrganizationsSuperUsers = async () => {
       try {
         const response = await organizationApi().getOrganizationsSuperUsers();
-        setOrgSuperUsers(response.data);
+        const organizationUsersWithSno = response.data.map((org, index) => ({
+          ...org,
+          sno: index + 1, 
+        }));
+        setOrgSuperUsers(organizationUsersWithSno);
       } catch (error) {
         setError(error.message);
         setSnackbarSeverity("error");
@@ -44,22 +48,17 @@ const SuperUsersList = () => {
     fetchOrganizationsSuperUsers();
   }, []);
 
-  const handleEdit = (id) => {
-    console.log(`Edit row with id: ${id}`);
-    // Implement edit functionality here
-  };
-
-  const handleDelete = (id) => {
-    console.log(`Delete row with id: ${id}`);
-    // Implement delete functionality here
-  };
-
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
+    {
+      field: "sno",
+      headerName: "S.No",
+      flex: 0.5,
+    },
+    { field: "id", headerName: "ID", flex: 1.5 },
     {
       field: "organizationID",
       headerName: "Organization ID",
@@ -67,7 +66,7 @@ const SuperUsersList = () => {
     },
     {
       field: "superUserEmail",
-      headerName: "SuperUser Email",
+      headerName: "User Email",
       flex: 1,
     },
     {
@@ -75,35 +74,11 @@ const SuperUsersList = () => {
       headerName: "Created At",
       flex: 1,
     },
-    {
-      field: "actions",
-      headerName: "Actions",
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <Box>
-            <IconButton
-              color="primary"
-              onClick={() => handleEdit(params.row.id)}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              color="secondary"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        );
-      },
-    },
   ];
 
   return (
     <Box m="20px">
-      <Header title="ORG. SUPER-USERS" subtitle="List of Org. Superusers" />
+      <Header title="All ORG. USERS" subtitle="List of all Org. Users" />
       <Box
         mt="40px"
         height="75vh"
@@ -159,7 +134,7 @@ const SuperUsersList = () => {
                 },
               },
             }}
-            checkboxSelection
+            // checkboxSelection
           />
         )}
       </Box>

@@ -10,10 +10,10 @@ import {
 import { Header } from "../../../../components";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../../../theme";
-import CopyAllIcon from "@mui/icons-material/CopyAll";
 import organizationApi from "../../../../api/crm/organization";
+import { Switch } from "@mui/material";
 
-const OrganizationList = () => {
+const OrganizationSettings = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [organizations, setOrganizations] = useState([]);
@@ -45,21 +45,50 @@ const OrganizationList = () => {
     fetchOrganizations();
   }, []);
 
-  const handleCopyId = (id) => {
-    navigator.clipboard.writeText(id).then(() => {
-      setSnackbarMessage("ID copied to clipboard!");
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
-    }).catch(() => {
-      setSnackbarMessage("Failed to copy ID.");
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
-    });
-  };
-
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
+
+  const handleToggleActive = async (id, currentStatus) => {
+    try {
+      const newStatus = !currentStatus;
+      const data = {
+        tenantID: id,
+        active: newStatus,
+      };
+      await organizationApi().disableOrganization(data);
+      setSnackbarSeverity("success");
+      setSnackbarMessage(
+        newStatus
+          ? "Organization successfully activated."
+          : "Organization successfully deactivated."
+      );
+      setSnackbarOpen(true);
+
+      setOrganizations((prevOrganizations) =>
+        prevOrganizations.map((org) =>
+          org.organizationID === id
+            ? {
+              ...org,
+              active: newStatus,
+              deactivated_at: newStatus ? null : new Date().toISOString(),
+            }
+            : org
+        )
+      );
+    } catch (error) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage(
+        "Failed to toggle organization status. Please try again."
+      );
+      setSnackbarOpen(true);
+    }
+  };
+
+  const formatUTCDateTime = (date) => {
+    const d = new Date(date);
+    return d.toLocaleString();
+  }
 
   const columns = [
     {
@@ -70,15 +99,7 @@ const OrganizationList = () => {
     {
       field: "organizationID",
       headerName: "Organization ID",
-      flex: 2,
-      renderCell: (params) => (
-        <Box display="flex" alignItems="center">
-          {params.value}
-          <IconButton onClick={() => handleCopyId(params.value)}>
-            <CopyAllIcon />
-          </IconButton>
-        </Box>
-      ),
+      flex: 1.5,
     },
     {
       field: "name",
@@ -87,29 +108,9 @@ const OrganizationList = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
       field: "plan",
       headerName: "Subscription Plan",
-      flex: 1,
-    },
-    {
-      field: "dbname",
-      headerName: "Database",
-      flex: 1,
-    },
-    {
-      field: "dbpassword",
-      headerName: "Database Password",
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: "active",
@@ -120,11 +121,29 @@ const OrganizationList = () => {
       field: "created_at",
       headerName: "Created At",
       flex: 1,
+      renderCell: (params) => (
+        formatUTCDateTime(params.row.created_at)
+      ),
+    },
+    {
+      field: "access",
+      headerName: "Access",
+      flex: 0.5,
+      renderCell: (params) => (
+        <Switch
+          checked={params.row.active}
+          onChange={() => handleToggleActive(params.row.organizationID, params.row.active)}
+          color="primary"
+        />
+      ),
     },
     {
       field: "deactivated_at",
       headerName: "Deactivated At",
       flex: 1,
+      renderCell: (params) => (
+        params.row.deactivated_at === null ? "N/A" : formatUTCDateTime(params.row.deactivated_at)
+      ),
     },
   ];
 
@@ -210,4 +229,4 @@ const OrganizationList = () => {
   );
 };
 
-export default OrganizationList;
+export default OrganizationSettings;
