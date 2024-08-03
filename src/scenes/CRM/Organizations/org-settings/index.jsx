@@ -8,10 +8,12 @@ import {
   Alert,
 } from "@mui/material";
 import { Header } from "../../../../components";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../../../theme";
 import organizationApi from "../../../../api/crm/organization";
 import { Switch } from "@mui/material";
+import Swal from 'sweetalert2';
 
 const OrganizationSettings = () => {
   const theme = useTheme();
@@ -85,6 +87,36 @@ const OrganizationSettings = () => {
     }
   };
 
+  const handleDeleteClick = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await organizationApi().deleteOrganization(id);
+          setOrganizations(prevOrganizations =>
+            prevOrganizations.filter(org => org.organizationID !== id)
+          );
+          Swal.fire(
+            'Deleted!',
+            'Organization has been deleted.',
+            'success'
+          )
+        } catch (error) {
+          setSnackbarSeverity("error");
+          setSnackbarMessage("Failed to delete organization. Please try again.");
+          setSnackbarOpen(true);
+        }
+      }
+    });
+  }
+
   const formatUTCDateTime = (date) => {
     const d = new Date(date);
     return d.toLocaleString();
@@ -135,6 +167,19 @@ const OrganizationSettings = () => {
           onChange={() => handleToggleActive(params.row.organizationID, params.row.active)}
           color="primary"
         />
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      flex: 0.5,
+      renderCell: (params) => (
+        <IconButton
+          color="secondary"
+          onClick={() => handleDeleteClick(params.row.organizationID)}
+        >
+          <DeleteIcon />
+        </IconButton>
       ),
     },
     {

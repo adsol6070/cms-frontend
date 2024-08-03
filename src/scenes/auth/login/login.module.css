@@ -1,0 +1,40 @@
+.inputField {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #34495e;
+    color: #ecf0f1;
+  }
+  
+  .inputField .MuiInputLabel-root {
+    color: #ecf0f1; 
+    font-weight: bold;
+    transition: all 0.3s ease;
+    transform: translate(12px, 20px) scale(1); 
+  }
+  
+  .inputField .MuiOutlinedInput-root {
+    background-color: #34495e;
+    
+    & fieldset {
+      border-color: #ecf0f1; 
+    }
+    
+    &:hover fieldset {
+      border-color: #3498db; 
+    }
+    
+    &.Mui-focused fieldset {
+      border-color: #3498db; 
+      border-width: 1px; 
+    }
+    
+    &.Mui-focused .MuiInputLabel-root {
+      color: #3498db; 
+      transform: translate(12px, -10px) scale(0.75); 
+    }
+  }
+  
+  .inputField .MuiInputBase-input {
+    color: #ecf0f1;
+  }
+  

@@ -16,6 +16,7 @@ import { ColorModeContext, useMode } from "../../../theme";
 import { auth } from "../../../firebase/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import styles from './login.module.css'
 
 const Login = () => {
   const [theme, colorMode] = useMode();
@@ -43,7 +44,6 @@ const Login = () => {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -69,7 +69,7 @@ const Login = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
+                className={styles.inputField}
               />
               <TextField
                 margin="normal"
@@ -80,6 +80,7 @@ const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                className={styles.inputField}
               />
               <Button
                 type="submit"
@@ -89,7 +90,7 @@ const Login = () => {
               >
                 Login
               </Button>
-              <Grid container>
+              {/* <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
                     Forgot password?
@@ -100,7 +101,7 @@ const Login = () => {
                     {"Don't have an account? Register"}
                   </Link>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Box>
           </Box>
         </Container>

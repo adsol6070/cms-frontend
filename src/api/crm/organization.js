@@ -15,6 +15,9 @@ const organizationApi = () => {
     disableOrganization: async (data) => {
       return axiosInstance.post("/organization/disable-tenant", data);
     },
+    deleteOrganization: async (id) => {
+      return axiosInstance.delete(`/organization/delete-tenant/${id}`);
+    },
   };
 };
 
